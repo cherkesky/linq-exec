@@ -82,6 +82,17 @@ namespace linq
       double counter2=purchases.Sum();
         System.Console.WriteLine(counter2);
 
+    // What is our most expensive product?
+    List<double> prices = new List<double>()
+    {
+        879.45, 9442.85, 2454.63, 45.65, 2340.29, 34.03, 4786.45, 745.31, 21.76
+    };
+
+    List <double> orderedPrices = prices.OrderByDescending(p=>p).ToList();
+    System.Console.WriteLine("What is our most expensive product?");
+    System.Console.WriteLine(orderedPrices[0]);
+
+
 
     }
   }
