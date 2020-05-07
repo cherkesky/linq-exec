@@ -12,12 +12,12 @@ namespace linq
     public double Balance { get; set; }
     public string Bank { get; set; }
   }
- public class MillionairReport
- {
-     public string BankName {get; set;}
-    public int MillionairCounter {get; set;}
+  public class MillionairReport
+  {
+    public string BankName { get; set; }
+    public int MillionairCounter { get; set; }
 
- }
+  }
 
   class Program
   {
@@ -137,9 +137,9 @@ namespace linq
         }
       }
 
-// Build a collection of customers who are millionaires
+      // Build a collection of customers who are millionaires
 
-        List<Customer> customers = new List<Customer>() {
+      List<Customer> customers = new List<Customer>() {
             new Customer(){ Name="Bob Lesman", Balance=80345.66, Bank="FTB"},
             new Customer(){ Name="Joe Landy", Balance=9284756.21, Bank="WF"},
             new Customer(){ Name="Meg Ford", Balance=487233.01, Bank="BOA"},
@@ -151,18 +151,26 @@ namespace linq
             new Customer(){ Name="Tina Fey", Balance=1000000.00, Bank="CITI"},
             new Customer(){ Name="Sid Brown", Balance=49582.68, Bank="CITI"}
         };
-        System.Console.WriteLine("Build a collection of customers who are millionaires");
-        List<MillionairReport> millionairReport1 = (from customer in customers
-        group customer by customer.Bank into bankGroup
-        select new MillionairReport {
-            BankName = bankGroup.Key,
-            MillionairCounter = bankGroup.Count()
-        }).ToList();
+      System.Console.WriteLine("Build a collection of customers who are millionaires");
+      var millionares = customers.Where(millionare =>
+      {return millionare.Balance >= 1000000;}).ToList();
 
-            foreach(MillionairReport entry in millionairReport1)
+      var totalMillionares = millionares.GroupBy(m => m.Bank)
+          .Select(group =>
+          {
+            return new MillionairReport
             {
-                Console.WriteLine($"{entry.BankName}, {entry.MillionairCounter}");
-            }
-}
-}
+              MillionairCounter = group.Count(),
+              BankName = group.Key
+            };
+
+          });
+      foreach (var bank in totalMillionares)
+      {
+        //    bank is a class 
+        Console.WriteLine($"Bank Name: {bank.BankName} Number of Millionares {bank.MillionairCounter} ");
+
+      }
+    }
+  }
 }
